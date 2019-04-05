@@ -1,5 +1,6 @@
 # moon-invest
 This repository aim at making my invest curve going to moon
+This invest system is based on OKEX (a cryptocurrency trading platform)
 
 This project will be divided into six parts:
 1.Interface
