@@ -23,7 +23,7 @@ This project will be divided into six parts:
 -Basic concept of investing tools provided
 
 -alert methods, message, email, txt and so on
-
+	-implement a tool to send email if certain conditions are satisfied. 
 5.Strategies
 
 -different strategies for quantitative investment
