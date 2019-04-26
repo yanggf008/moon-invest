@@ -2,9 +2,9 @@
 from tools.md5 import Md5tools
 from user_properties import *
 from symbol_properties import *
-from getPrice import *
-from tradeLog import writeLogFile
-from getLogFileName import getActionLogFile
+from tools.price_util import *
+from tools.logfile import *
+from tools.get_logfile_name import get_action_logfile
 
 # action actually proceed functions
 
