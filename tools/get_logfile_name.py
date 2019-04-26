@@ -27,8 +27,16 @@ def get_base_logfile():
 
 
 def get_fund_logfile():
+    """
+    This function is to return the fund logfile name
+    :return: a String of fund logfile name
+    """
     return "fund" + get_day() + ".log"
 
 
 def get_action_logfile():
+    """
+    This function is to return the action logfile name
+    :return: a String of action logfile name
+    """
     return "action" + get_day() + ".log"
