@@ -9,7 +9,7 @@ from tools.get_logfile_name import get_base_logfile
 from tools.logfile import Logfile
 
 
-class PriceUtil:
+class Price:
     # get the price of the commodity
 
     def __init__(self, symbol):
@@ -48,7 +48,7 @@ class PriceUtil:
 
 
 if __name__ == "__main__":
-    btc_price_util = PriceUtil("btc_usdt")
+    btc_price_util = Price("btc_usdt")
     print(btc_price_util.get_current_buy_price())
     print(btc_price_util.get_current_buy_price())
     print(btc_price_util.get_kline_info("15min", -1))
