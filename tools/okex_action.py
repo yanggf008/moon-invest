@@ -22,12 +22,13 @@ def getFundsList():
 
 def logHotUsdt():
     dataMap = {"api_key": APIKEY, "secret_key": SECRETKEY}
-    data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": get_md5_value(dataMap)}
+    data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": Md5tools.get_sign_value(dataMap)}
     html = requests.post("https://www.okex.com/api/v1/userinfo.do", data)
     jsonStr = json.loads(html.content)
     hot_value = jsonStr["info"]["funds"]["free"]["hot"]
     usdt_value = jsonStr["info"]["funds"]["free"]["usdt"]
-    writeLogFile(getActionLogFile(), "SUMMARY>>HOT:" + str(hot_value) + ", USDT:" + str(usdt_value))
+    action_log = Logfile(get_action_logfile())
+    action_log.write_logfile("SUMMARY>>HOT:" + str(hot_value) + ", USDT:" + str(usdt_value))
 
 
 # ticker's bid information(buy price and amount)
