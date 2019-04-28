@@ -34,7 +34,7 @@ def logHotUsdt():
 # ticker's bid information(buy price and amount)
 def ticker_bid():
     dataMap = {"api_key": APIKEY, "secret_key": SECRETKEY}
-    data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": get_md5_value(dataMap), "symbol": SYMBOL}
+    data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": Md5tools.get_sign_value(dataMap), "symbol": SYMBOL}
     html = requests.get("https://www.okex.com/api/v1/depth.do", data)
     jsonStr = json.loads(html.content)
     tickerMap = jsonStr['bids'][0]
@@ -44,7 +44,7 @@ def ticker_bid():
 # ticker's ask information(sell price and amount)
 def ticker_ask():
     dataMap = {"api_key": APIKEY, "secret_key": SECRETKEY}
-    data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": get_md5_value(dataMap), "symbol": SYMBOL}
+    data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": Md5tools.get_sign_value(dataMap), "symbol": SYMBOL}
     html = requests.get("https://www.okex.com/api/v1/depth.do", data)
     jsonStr = json.loads(html.content)
     tickerMap = jsonStr['asks'][-1]
@@ -55,7 +55,7 @@ def trade_buy():
     dataMap = {"api_key": APIKEY, "symbol": SYMBOL, "type": "buy",
              "price": float(ticker_ask()[0]), "amount": float(getCanBuyAmount())}
     data = {"amount": float(getCanBuyAmount()), "api_key": APIKEY, "price": float(ticker_ask()[0]), "symbol": SYMBOL, "type": "buy",
-              "sign": get_sign_value(dataMap)}
+              "sign": Md5tools.get_full_sign_value(dataMap)}
     html = requests.post("https://www.okex.com/api/v1/trade.do", data)
     jsonStr = json.loads(html.content)
     tickerMap = jsonStr
@@ -66,7 +66,7 @@ def trade_sell():
     dataMap = {"api_key": APIKEY, "symbol": SYMBOL, "type": "sell",
              "price": float(ticker_bid()[0]), "amount": float(getCanSellAmount())}
     data = {"amount": float(getCanSellAmount()), "api_key": APIKEY, "price": float(ticker_bid()[0]), "symbol": SYMBOL, "type": "sell",
-              "sign": get_sign_value(dataMap)}
+              "sign": Md5tools.get_full_sign_value(dataMap)}
     html = requests.post("https://www.okex.com/api/v1/trade.do", data)
     jsonStr = json.loads(html.content)
     tickerMap = jsonStr
@@ -75,7 +75,7 @@ def trade_sell():
 
 def get_order_info():
     dataMap = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": -1}
-    data = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": -1, "sign": get_sign_value(dataMap)}
+    data = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": -1, "sign": Md5tools.get_full_sign_value(dataMap)}
     html = requests.post("https://www.okex.com/api/v1/order_info.do", data)
     jsonStr = json.loads(html.content)
     tickerMap = jsonStr
@@ -84,7 +84,7 @@ def get_order_info():
 
 def get_order_id_list():
     dataMap = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": -1}
-    data = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": -1, "sign": get_sign_value(dataMap)}
+    data = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": -1, "sign": Md5tools.get_full_sign_value(dataMap)}
     html = requests.post("https://www.okex.com/api/v1/order_info.do", data)
     jsonStr = json.loads(html.content)
     tickerMap = jsonStr['orders']
@@ -98,9 +98,10 @@ def cancel_all_order():
     order_id_list = get_order_id_list()
     for id in order_id_list:
         dataMap = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": id}
-        data = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": id, "sign": get_sign_value(dataMap)}
+        data = {"api_key": APIKEY, "symbol": SYMBOL, "order_id": id, "sign": Md5tools.get_full_sign_value(dataMap)}
         html = requests.post("https://www.okex.com/api/v1/cancel_order.do", data)
-        writeLogFile(getActionLogFile(),"ORDER CANCELLED, ORDER_ID INFO:" + html.content)
+        action_logfile = Logfile(get_action_logfile())
+        action_logfile.write_logfile("ORDER CANCELLED, ORDER_ID INFO:" + html.content)
         time.sleep(1)
 
 
