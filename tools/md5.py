@@ -42,7 +42,3 @@ class Md5tools:
         my_md5_digest = my_md5.hexdigest()  # return 32 bits digest in HEX
         return my_md5_digest.upper()
 
-
-if __name__ == "__main__":
-    dataMap = {"api_key": "66fa8725-1c3b-4c3f-a053-3b3b745736d5", "secretkey": "F496EC03778765D3A14DC41DE446AF1B"}
-    print(Md5tools.get_full_sign_value(dataMap))

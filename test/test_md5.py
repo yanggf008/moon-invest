@@ -4,6 +4,9 @@ from tools.md5 import Md5tools
 
 
 class TestMd5(unittest.TestCase):
+    """
+    This is a test case Class for Md5Tools
+    """
     def test_sign_value(self):
         data_map = {"api_key": "YOUR_APIKEY", "secretkey": "YOUR_SECRETKEY"}
         sign_value_okex = Md5tools.get_sign_value(data_map)
