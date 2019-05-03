@@ -6,7 +6,7 @@ This project will be divided into six parts:
 
 1.Interface
 
--Different trading interfaces for different platforms
+-Different trading interfaces for different cryptocurrencies
 
 2.Log
 
