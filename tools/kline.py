@@ -39,7 +39,7 @@ class Kline:
 
     def valid(self):
         """
-        The function to check weather this kline is valid
+        The function to check whether this kline is valid
         :return: True or False
         """
         if self.low > self.high:

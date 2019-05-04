@@ -25,6 +25,7 @@ def log_hot_usdt():
     data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": Md5tools.get_full_sign_value(data_map)}
     html = requests.post("https://www.okex.com/api/v1/userinfo.do", data)
     hot_json = json.loads(html.content)
+    print(hot_json)
     hot_value = hot_json["info"]["funds"]["free"]["hot"]
     usdt_value = hot_json["info"]["funds"]["free"]["usdt"]
     action_log = Logfile(get_action_logfile())
