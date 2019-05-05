@@ -10,32 +10,28 @@ import hashlib
 import base64
 import hmac
 
-# action actually proceed functions
-"""
-All REST requests must contain the following headers:
-OK-ACCESS-KEY The api key as a String.
-OK-ACCESS-SIGN The base64-encoded signature (see Signing a Message).
-OK-ACCESS-TIMESTAMP A timestamp for your request.
-OK-ACCESS-PASSPHRASE The passphrase you specified when creating the API key.
-All request bodies should have content type application/json and be valid JSON.
-"""
-timestamp = get_utc_timestamp()
-host = "https://www.okex.com/api/account/v3/currencies"
-content = timestamp + "GET" + "/api/account/v3/currencies"
-
-h = hmac.new(bytes(SECRETKEY, "utf8"), bytes(content, "utf8"), hashlib.sha256).digest()
-MSG = base64.b64encode(h)
-headers = {
-"OK-ACCESS-KEY": APIKEY,
-    "OK-ACCESS-SIGN": MSG,
-    "CONTENT-TYPE": "application/json",
-    "OK-ACCESS-TIMESTAMP": timestamp,
-    "OK-ACCESS-PASSPHRASE": PASSPHRASE
-}
-
 
 def get_currencies():
-    currencies_url = "/api/account/v3/currencies"
+    """
+    All REST requests must contain the following headers:
+    OK-ACCESS-KEY The api key as a String.
+    OK-ACCESS-SIGN The base64-encoded signature (see Signing a Message).
+    OK-ACCESS-TIMESTAMP A timestamp for your request.
+    OK-ACCESS-PASSPHRASE The passphrase you specified when creating the API key.
+    All request bodies should have content type application/json and be valid JSON.
+    """
+    timestamp = get_utc_timestamp()
+    host = "https://www.okex.com/api/account/v3/currencies"
+    content = timestamp + "GET" + "/api/account/v3/currencies"
+    h = hmac.new(bytes(SECRETKEY, "utf8"), bytes(content, "utf8"), hashlib.sha256).digest()
+    signature = base64.b64encode(h)
+    headers = {
+        "OK-ACCESS-KEY": APIKEY,
+        "OK-ACCESS-SIGN": signature,
+        "CONTENT-TYPE": "application/json",
+        "OK-ACCESS-TIMESTAMP": timestamp,
+        "OK-ACCESS-PASSPHRASE": PASSPHRASE
+    }
     currencies_content = requests.get(host, headers=headers)
     print(currencies_content.status_code)
     print(currencies_content.content)
