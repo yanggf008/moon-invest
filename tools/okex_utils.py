@@ -26,6 +26,8 @@ def pre_hash(timestamp, method, request_path, body):
     :param body: body content of the request
     :return: return the generated message
     """
+    if method == "GET":
+        body = ""
     hash_content = str(timestamp) + str.upper(method) +\
         str(request_path) + str(body)
     return hash_content
