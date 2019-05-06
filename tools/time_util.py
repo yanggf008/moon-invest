@@ -14,9 +14,11 @@ def get_timestamp():
 def get_utc_timestamp():
     """
     This function is to return the value of the UTC format time
+    This timestamp is used for okex v3 api
     :return: a string of time in UTC format
     """
     return datetime.datetime.utcnow().isoformat()[:-3] + "Z"
+
 
 def get_day():
     """
