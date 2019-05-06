@@ -19,6 +19,7 @@ def get_currencies():
     OK-ACCESS-TIMESTAMP A timestamp for your request.
     OK-ACCESS-PASSPHRASE The passphrase you specified when creating the API key.
     All request bodies should have content type application/json and be valid JSON.
+    :return: a list contains all the names of currencies
     """
     timestamp = get_utc_timestamp()
     host = "https://www.okex.com/api/account/v3/currencies"
@@ -32,9 +33,14 @@ def get_currencies():
         "OK-ACCESS-TIMESTAMP": timestamp,
         "OK-ACCESS-PASSPHRASE": PASSPHRASE
     }
-    currencies_content = requests.get(host, headers=headers)
-    print(currencies_content.status_code)
-    print(currencies_content.content)
+    currencies_response = requests.get(host, headers=headers)
+    content = currencies_response.content
+    str_content = content.decode('utf8')
+    json_content = json.loads(str_content)
+    currencies_list = []
+    for item in json_content:
+        currencies_list.append(item["currency"])
+    return currencies_list
 
 
 def get_fund_list():
@@ -82,8 +88,8 @@ def ticker_ask():
 
 def trade_buy():
     data_map = {"api_key": APIKEY, "symbol": SYMBOL, "type": "buy",
-             "price": float(ticker_ask()[0]), "amount": float(getCanBuyAmount())}
-    data = {"amount": float(getCanBuyAmount()), "api_key": APIKEY, "price": float(ticker_ask()[0]), "symbol": SYMBOL, "type": "buy",
+             "price": float(ticker_ask()[0]), "amount": float(get_can_buy_amount())}
+    data = {"amount": float(get_can_buy_amount()), "api_key": APIKEY, "price": float(ticker_ask()[0]), "symbol": SYMBOL, "type": "buy",
               "sign": Md5tools.get_full_sign_value(data_map)}
     html = requests.post("https://www.okex.com/api/v1/trade.do", data)
     trade_json = json.loads(html.content)
@@ -93,8 +99,8 @@ def trade_buy():
 
 def trade_sell():
     data_map = {"api_key": APIKEY, "symbol": SYMBOL, "type": "sell",
-             "price": float(ticker_bid()[0]), "amount": float(getCanSellAmount())}
-    data = {"amount": float(getCanSellAmount()), "api_key": APIKEY, "price": float(ticker_bid()[0]), "symbol": SYMBOL, "type": "sell",
+             "price": float(ticker_bid()[0]), "amount": float(get_can_sell_amout())}
+    data = {"amount": float(get_can_sell_amout()), "api_key": APIKEY, "price": float(ticker_bid()[0]), "symbol": SYMBOL, "type": "sell",
               "sign": Md5tools.get_full_sign_value(data_map)}
     html = requests.post("https://www.okex.com/api/v1/trade.do", data)
     sell_json = json.loads(html.content)
@@ -179,17 +185,3 @@ def trade_sell_three_times():
         num += 1
         if num > 2:
             break
-
-
-if __name__ == "__main__":
-    get_currencies()
-    # log_hot_usdt()
-    # trade_buy_three_times()
-    # print trade_sell()
-    # print getFundsList()
-    # print get_order_info()
-    # print get_order_id_list()
-    # cancel_all_order()
-    # print getCanSellAmount(), getCanBuyAmount()
-    # print ticker_bid(), ticker_ask()
-    # print getCanBuyAmount()
