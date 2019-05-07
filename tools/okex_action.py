@@ -13,7 +13,7 @@ from tools.consts import *
 from tools.okex_utils import get_header, sign, pre_hash
 
 
-def get_currencies():
+def get_public_currencies():
     """
     All REST requests must contain the following headers:
     OK-ACCESS-KEY The api key as a String.
@@ -45,40 +45,28 @@ def get_currencies():
     return currencies_list
 
 
-def get_wallet_list():
-    # funds_map = ["info"]["funds"]["free"]
-    # return sorted(fundMap.items(), key=lambda e: e[1], reverse=True)
-
+def get_spot_info():
     request_path = SPOT_ACCOUNT_INFO
     timestamp = get_utc_timestamp()
     hash_content = pre_hash(timestamp, GET, request_path, "")
     header = get_header(timestamp, sign(hash_content))
     response = requests.get(API_URL+request_path, headers=header)
-    print(response.json())
-    return response
+    return response.json()
 
 
-# def log_hot_usdt():
-#     data_map = {"api_key": APIKEY, "secret_key": SECRETKEY}
-#     data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": Md5tools.get_full_sign_value(data_map)}
-#     html = requests.post("https://www.okex.com/api/v1/userinfo.do", data)
-#     hot_json = json.loads(html.content)
-#     print(hot_json)
-#     hot_value = hot_json["info"]["funds"]["free"]["hot"]
-#     usdt_value = hot_json["info"]["funds"]["free"]["usdt"]
-#     action_log = Logfile(get_action_logfile())
-#     action_log.write_logfile("SUMMARY>>HOT:" + str(hot_value) + ", USDT:" + str(usdt_value))
-#
-#
-# # ticker's bid information(buy price and amount)
-# def ticker_bid():
-#     data_map = {"api_key": APIKEY, "secret_key": SECRETKEY}
-#     data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": Md5tools.get_sign_value(data_map), "symbol": SYMBOL}
-#     html = requests.get("https://www.okex.com/api/v1/depth.do", data)
-#     ticker_json = json.loads(html.content)
-#     ticker_map = ticker_json['bids'][0]
-#     return ticker_map
-#
+def get_currency_amount(currency):
+    request_path = SPOT_ACCOUNT_INFO
+    timestamp = get_utc_timestamp()
+    hash_content = pre_hash(timestamp, GET, request_path, "")
+    header = get_header(timestamp, sign(hash_content))
+    response = requests.get(API_URL+request_path, headers=header)
+    amount = 0
+    for item in response.json():
+        if item['currency'] == str.upper(currency):
+            amount = item['available']
+    return float(amount)
+
+
 #
 # # ticker's ask information(sell price and amount)
 # def ticker_ask():
@@ -191,4 +179,6 @@ def get_wallet_list():
 #             break
 
 if __name__ == "__main__":
-    get_wallet_list()
+    print(get_public_currencies())
+    print(get_spot_info())
+    print(get_currency_amount("yee"))

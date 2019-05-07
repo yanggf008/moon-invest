@@ -56,14 +56,14 @@ class Client:
         else:
             return response.json()
 
-    def _request_without_params(self, timestamp, method, request_path):
+    def _request_without_params(self, method, request_path):
         """
         The basic request behavior for client account without params
         :param method: GET or POST or DELETE
         :param request_path: '/api/.../...' stands for a function
         :return: return the result of the request without params
         """
-        self._request(self, timestamp, method, request_path, {})
+        return self._request(method, request_path, {})
 
     @staticmethod
     def _get_server_timestamp():
@@ -73,3 +73,5 @@ class Client:
             return response.json()['iso']
         else:
             return ""
+
+
