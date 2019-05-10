@@ -57,6 +57,7 @@ def params_to_url(params):
     :return: the url generated from params
     """
     url = '?'
-    for key, value in params:
+    for (key, value) in params.items():
         url = url + str(key) + '=' + str(value) + '&'
     return url[:-1]
+

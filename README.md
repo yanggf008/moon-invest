@@ -33,3 +33,5 @@ This project will be divided into six parts:
 -Analyze the performance of different strategies
 
 
+*To prevent sensitive data to be public, I did not 
+upload user_properties.py file
