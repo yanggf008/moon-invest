@@ -30,7 +30,7 @@ class Spot(Client):
     def depth_sell_list(self, instrument_id):
         """
         get the sell details of the currency
-        :param currency: the name of the currency
+        :param instrument_id: the name of the currency
         :return: the sell price list of the currency
         """
         return self.get_depth(instrument_id)['asks']
