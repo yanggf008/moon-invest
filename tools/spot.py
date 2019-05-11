@@ -27,6 +27,18 @@ class Spot(Client):
                 amount = item['available']
         return float(amount)
 
+    def get_usdt_amount(self):
+        """
+        get usdt amount in your spot account
+        :return : (float)the amount of usdt
+        """
+        spot_json = self._request_without_params(GET, SPOT_ACCOUNT_INFO)
+        amount = 0
+        for item in spot_json:
+            if item['currency'] == str.upper("usdt"):
+                amount = item['available']
+        return float(amount)
+
     def depth_sell_list(self, instrument_id):
         """
         get the sell details of the currency
@@ -34,7 +46,6 @@ class Spot(Client):
         :return: the sell price list of the currency
         """
         return self.get_depth(instrument_id)['asks']
-
 
     def get_depth(self, instrument_id, size='', depth=''):
         """
@@ -60,3 +71,4 @@ if __name__ == "__main__":
     print(spot.get_depth("yee-usdt", 1, "0.001"))
     print(spot.get_depth("yee-usdt", 10, "0.99"))
     print(spot.depth_sell_list("yee-usdt"))
+    print(spot.get_usdt_amount())
