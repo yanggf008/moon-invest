@@ -39,7 +39,7 @@ class Spot(Client):
                 amount = item['available']
         return float(amount)
 
-    def depth_sell_list(self, instrument_id):
+    def get_sell_list(self, instrument_id):
         """
         get the sell details of the currency
         :param instrument_id: the name of the currency
@@ -62,6 +62,14 @@ class Spot(Client):
             params['depth'] = depth
         return self._request(GET, SPOT_DEPTH + str(instrument_id) + '/book', params)
 
+    def get_buy_list(self, instrument_id):
+        """
+        get the buy details of the currency
+        :param instrument_id: the name of the currency
+        :return: the buy price list of the currency([price, amount, num])
+        """
+        return self.get_depth(instrument_id)['bids']
+
 
 if __name__ == "__main__":
     spot = Spot()
@@ -70,5 +78,6 @@ if __name__ == "__main__":
     print(spot.get_depth("yee-usdt", 1))
     print(spot.get_depth("yee-usdt", 1, "0.001"))
     print(spot.get_depth("yee-usdt", 10, "0.99"))
-    print(spot.depth_sell_list("yee-usdt"))
+    print(spot.get_sell_list("yee-usdt"))
     print(spot.get_usdt_amount())
+    print(spot.get_buy_list('yee-usdt')[0][0])
