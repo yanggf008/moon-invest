@@ -43,9 +43,17 @@ class Spot(Client):
         """
         get the sell details of the currency
         :param instrument_id: the name of the currency
-        :return: the sell price list of the currency
+        :return: the sell price list of the currency({[price, amount, num],})
         """
         return self.get_depth(instrument_id)['asks']
+
+    def get_sell_price(self, instrument_id):
+        """
+        get the sell price of the currency
+        :param instrument_id: the name of the currency
+        :return: the sell first price of the currency(float)
+        """
+        return float(self.get_depth(instrument_id)['asks'][0][0])
 
     def get_depth(self, instrument_id, size='', depth=''):
         """
@@ -66,9 +74,17 @@ class Spot(Client):
         """
         get the buy details of the currency
         :param instrument_id: the name of the currency
-        :return: the buy price list of the currency([price, amount, num])
+        :return: the buy price list of the currency({[price, amount, num],})
         """
         return self.get_depth(instrument_id)['bids']
+
+    def get_buy_price(self, instrument_id):
+        """
+        get the buy price of the currency
+        :param instrument_id: the name of the currency
+        :return: the buy price of the currency(float)
+        """
+        return self.get_depth(instrument_id)['bids'][0][0]
 
 
 if __name__ == "__main__":
@@ -80,4 +96,5 @@ if __name__ == "__main__":
     print(spot.get_depth("yee-usdt", 10, "0.99"))
     print(spot.get_sell_list("yee-usdt"))
     print(spot.get_usdt_amount())
-    print(spot.get_buy_list('yee-usdt')[0][0])
+    print(spot.get_sell_price('r-usdt'))
+    print(spot.get_buy_price('yee-usdt'))
