@@ -86,6 +86,15 @@ class Spot(Client):
         """
         return self.get_depth(instrument_id)['bids'][0][0]
 
+    def get_buy_amount(self, instrument_id):
+        """
+        Get the amount of the currency we can buy
+        :param instrument_id: the currency name
+        :return: the amount we can buy for the currency(float)
+        """
+        usdt = self.get_usdt_amount()
+        return usdt/self.get_sell_price(instrument_id)
+
 
 if __name__ == "__main__":
     spot = Spot()
@@ -98,3 +107,4 @@ if __name__ == "__main__":
     print(spot.get_usdt_amount())
     print(spot.get_sell_price('r-usdt'))
     print(spot.get_buy_price('yee-usdt'))
+    print(spot.get_buy_amount('yee-usdt'))
