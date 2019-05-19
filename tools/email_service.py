@@ -13,7 +13,7 @@ class Email:
         :param title: the title of the email
         :param content: the content of the email
         :return: None
-        :raise: Error: the email service is not stabilised
+        :raise: Error: the email service is not available
         """
         server = smtplib.SMTP('smtp.126.com')
         server.login(SENDER_ADDRESS, str(base64.b64decode(EMAIL_PASSWORD), 'utf8'))
