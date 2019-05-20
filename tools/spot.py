@@ -115,16 +115,49 @@ class Spot(Client):
                   'price': price, 'funds': funds, 'margin_trading': margin_trading, 'order_type': order_type}
         return self._request(POST, SPOT_ORDER, params)
 
+    def get_currency_list(self):
+        """
+        Get the currency list
+        :return: the currency list
+        """
+        currency_info = self._request_without_params(GET, CURRENCIES_INFO)
+        currency_list = []
+        for item in currency_info:
+            currency_list.append(item['currency'])
+        return currency_list
+
+    def get_instrument_list(self):
+        instrument_info = self._request_without_params(GET, SPOT_COIN_INFO)
+        instrument_list = []
+        for instrument in instrument_info:
+            instrument_list.append(instrument["instrument_id"])
+        return instrument_list
+
+    def get_instrument_price(self):
+        instrument_info = self._request_without_params(GET, SPOT_TICKER)
+        instrument_map = {}
+        for instrument in instrument_info:
+            instrument_map[instrument["instrument_id"]] = float(instrument["best_bid"])
+        return instrument_map
+
+    def get_top_instrument(self, n):
+        instrument_map = self.get_instrument_price()
+        filtered_keys = list(filter(lambda x: str(x).endswith("USDT"), instrument_map.keys()))
+        filtered_list = [(k, instrument_map[k]) for k in filtered_keys]
+        return sorted(filtered_list, key=lambda d: d[1], reverse=True)[:n]
+
 
 if __name__ == "__main__":
     spot = Spot()
-    print(spot.get_currency_amount("yee"))
-    print(spot.get_depth("btc-usdt"))
-    print(spot.get_depth("yee-usdt", 1))
-    print(spot.get_depth("yee-usdt", 1, "0.001"))
-    print(spot.get_depth("yee-usdt", 10, "0.99"))
-    print(spot.get_sell_list("yee-usdt"))
-    print(spot.get_usdt_amount())
-    print(spot.get_sell_price('r-usdt'))
-    print(spot.get_buy_price('yee-usdt'))
-    print(spot.get_buy_amount('yee-usdt'))
+    # print(spot.get_currency_amount("yee"))
+    # print(spot.get_depth("btc-usdt"))
+    # print(spot.get_depth("yee-usdt", 1))
+    # print(spot.get_depth("yee-usdt", 1, "0.001"))
+    # print(spot.get_depth("yee-usdt", 10, "0.99"))
+    # print(spot.get_sell_list("yee-usdt"))
+    # print(spot.get_usdt_amount())
+    # print(spot.get_sell_price('r-usdt'))
+    # print(spot.get_buy_price('btc-usdt'))
+    # print(spot.get_buy_amount('yee-usdt'))
+    print(spot.get_instrument_price())
+    print(spot.get_top_instrument(5))
