@@ -93,7 +93,27 @@ class Spot(Client):
         :return: the amount we can buy for the currency(float)
         """
         usdt = self.get_usdt_amount()
-        return usdt/self.get_sell_price(instrument_id)
+        return float(usdt/self.get_sell_price(instrument_id))
+
+    def take_order(self, otype, side, instrument_id, size, margin_trading=1, client_oid='', price='', funds='',
+                   order_type=''):
+        """
+        This function is to place an order in spot account
+        :param otype: order type (limit, market)
+        :param side: order direction (buy, sell)
+        :param instrument_id: the name of crypto currency
+        :param size: quantity
+        :param margin_trading: order type (the request value is 1)
+        :param client_oid: the order id customised by user
+        :param price: the price of the order
+        :param funds:
+        :param order_type: Fill in number for parameter, 0: normal limit order, 1: post only, 2: fill or kill
+                        3: immediate or cancel
+        :return: None
+        """
+        params = {'type': otype, 'side': side, 'instrument_id': instrument_id, 'size': size, 'client_oid': client_oid,
+                  'price': price, 'funds': funds, 'margin_trading': margin_trading, 'order_type': order_type}
+        return self._request(POST, SPOT_ORDER, params)
 
 
 if __name__ == "__main__":
