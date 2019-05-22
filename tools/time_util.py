@@ -30,6 +30,11 @@ def get_previous_utc(n):
     return ago_time.isoformat()[:-3] + "Z"
 
 
+def utc_to_timestamp(utc_time):
+    utc_str = datetime.datetime.strptime(utc_time[:-5], "%Y-%m-%dT%H:%M:%S")
+    return utc_str.timestamp()
+
+
 def get_day():
     """
     This function is to return the value of the current date in format -%Y-%m-%d
@@ -48,6 +53,7 @@ def get_format_time():
 
 if __name__ == "__main__":
     print(datetime.datetime.utcnow().isoformat()[:-3] + "Z")
-    print(get_timestamp())
+    print((datetime.datetime.utcnow() - timedelta(hours=4)).isoformat())
     print(get_utc_timestamp())
     print(get_previous_utc(23))
+    print(utc_to_timestamp("2019-05-22T03:25:10.482Z"))
