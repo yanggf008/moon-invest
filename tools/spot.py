@@ -117,7 +117,7 @@ class Spot(Client):
 
     def get_currency_list(self):
         """
-        Get the currency list
+        Get the currency list(different coin names)
         :return: the currency list
         """
         currency_info = self._request_without_params(GET, CURRENCIES_INFO)
@@ -158,6 +158,28 @@ class Spot(Client):
         filtered_keys = list(filter(lambda x: str(x).endswith("USDT"), instrument_map.keys()))
         filtered_list = [(k, instrument_map[k]) for k in filtered_keys]
         return sorted(filtered_list, key=lambda d: d[1], reverse=True)[:n]
+
+    def get_kline(self, instrument, start, end, granularity):
+        """
+        This function is to get the kline of the instrument
+        :param instrument: the name of the trade pair
+        :param start: the start time
+        :param end: the end time
+        :param granularity: {60, 180, 300, 900, 1800, 3600, 7200, 14400, 43200, 86400, 604800}
+                            one minute, three minutes, five minutes, fifteen minutes,
+                            thirty minutes, one hour, two hours, six hours, twelve hours, one day, 1 week
+        :return:(list) a kline list
+        """
+        param = {}
+        if start:
+            param["start"] = start
+        if end:
+            param["end"] = end
+        if granularity:
+            param["granularity"] = granularity
+        return self._request(GET, SPOT_KLINE + str(instrument) + "/candles", param)
+
+        pass
 
 
 if __name__ == "__main__":

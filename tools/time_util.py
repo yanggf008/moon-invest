@@ -1,6 +1,7 @@
 # coding: utf8
 import time
 import datetime
+from datetime import timedelta
 
 
 def get_timestamp():
@@ -18,6 +19,15 @@ def get_utc_timestamp():
     :return: a string of time in UTC format
     """
     return datetime.datetime.utcnow().isoformat()[:-3] + "Z"
+
+
+def get_previous_utc(n):
+    """
+    This function is to get the value of the n day ago time
+    :return: (string) n day ago time in UTC format
+    """
+    ago_time = datetime.datetime.utcnow() - timedelta(days=n)
+    return ago_time.isoformat()[:-3] + "Z"
 
 
 def get_day():
@@ -40,3 +50,4 @@ if __name__ == "__main__":
     print(datetime.datetime.utcnow().isoformat()[:-3] + "Z")
     print(get_timestamp())
     print(get_utc_timestamp())
+    print(get_previous_utc(23))
