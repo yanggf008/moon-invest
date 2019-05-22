@@ -1,6 +1,9 @@
 # coding: utf8
 from tools.client import Client
 from tools.consts import *
+from tools.kline import Kline
+import json
+from tools.time_util import utc_to_timestamp
 
 
 class Spot(Client):
@@ -177,9 +180,14 @@ class Spot(Client):
             param["end"] = end
         if granularity:
             param["granularity"] = granularity
-        return self._request(GET, SPOT_KLINE + str(instrument) + "/candles", param)
-
-        pass
+        kline_info = self._request(GET, SPOT_KLINE + str(instrument) + "/candles", param)
+        kline_list = []
+        for kline_item in kline_info:
+            kline = Kline(granularity, kline_item[2], kline_item[3],
+                          kline_item[1], kline_item[4], utc_to_timestamp(kline_item[0])
+                          )
+            kline_list.append(kline)
+        return kline_list
 
 
 if __name__ == "__main__":
@@ -194,5 +202,5 @@ if __name__ == "__main__":
     # print(spot.get_sell_price('r-usdt'))
     # print(spot.get_buy_price('btc-usdt'))
     # print(spot.get_buy_amount('yee-usdt'))
-    print(spot.get_instrument_price())
-    print(spot.get_top_instrument(5))
+    # print(spot.get_instrument_price())
+    # print(spot.get_top_instrument(5))

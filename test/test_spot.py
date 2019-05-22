@@ -13,4 +13,6 @@ class TestSpot(unittest.TestCase):
         end = get_utc_timestamp()
         granularity = 7200
         klines = spot.get_kline(instrument, start, end, granularity)
+        for kline in klines:
+            print(kline)
         self.assertIsNotNone(klines, "the return kline should not be None")

@@ -32,7 +32,7 @@ def get_previous_utc(n):
 
 def utc_to_timestamp(utc_time):
     utc_str = datetime.datetime.strptime(utc_time[:-5], "%Y-%m-%dT%H:%M:%S")
-    return utc_str.timestamp()
+    return str(utc_str.timestamp())[:-2]
 
 
 def get_day():

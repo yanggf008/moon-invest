@@ -52,7 +52,7 @@ class Kline:
         This is a built-in function to implement str()
         :return: a String to represent this kline
         """
-        return "Period: " + self.period + ", Low:" + str(self.low) + ", High:" + str(self.high) + \
+        return "Period: " + str(self.period) + ", Low:" + str(self.low) + ", High:" + str(self.high) + \
                ",Open:" + str(self.open) + ",Close:" + str(self.close) + ",Time:" + str(self.time)
 
 
