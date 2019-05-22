@@ -127,6 +127,10 @@ class Spot(Client):
         return currency_list
 
     def get_instrument_list(self):
+        """
+        Get instrument id list
+        :return: a instrument list (trade pair)
+        """
         instrument_info = self._request_without_params(GET, SPOT_COIN_INFO)
         instrument_list = []
         for instrument in instrument_info:
@@ -134,6 +138,10 @@ class Spot(Client):
         return instrument_list
 
     def get_instrument_price(self):
+        """
+        Get instrument map including the price
+        :return: (map) contains instruments' id and price
+        """
         instrument_info = self._request_without_params(GET, SPOT_TICKER)
         instrument_map = {}
         for instrument in instrument_info:
@@ -141,6 +149,11 @@ class Spot(Client):
         return instrument_map
 
     def get_top_instrument(self, n):
+        """
+        Get top n instrument based on the usdt price
+        :param n: n >= 1
+        :return: the top n instrument list
+        """
         instrument_map = self.get_instrument_price()
         filtered_keys = list(filter(lambda x: str(x).endswith("USDT"), instrument_map.keys()))
         filtered_list = [(k, instrument_map[k]) for k in filtered_keys]
