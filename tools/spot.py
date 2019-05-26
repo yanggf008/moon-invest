@@ -2,7 +2,6 @@
 from tools.client import Client
 from tools.consts import *
 from tools.kline import Kline
-import json
 from tools.time_util import utc_to_timestamp
 
 
