@@ -3,7 +3,7 @@
 """
     Properties configuration for trading symbol
     SYMBOL: trading commodity
-    TYPE: period type
+    TYPE: period type 604800 = 1 week
 """
 SYMBOL = "btc_usdt"
-TYPE = "1day"
+TYPE = "604800"
