@@ -8,6 +8,13 @@ from tools.time_util import get_previous_utc, get_utc_timestamp
 
 
 def is_bottom_pattern(x, y, z):
+    """
+    Check whether this three klines form a bottom pattern
+    :param x: the first kline
+    :param y: the second kline
+    :param z: the third kline
+    :return: True or False for bottom pattern
+    """
     if(x.period == y.period and y.period == z.period and x.high > y.high
        and x.low > y.low and y.high < z.high and y.low < z.low):
         return True
@@ -16,6 +23,13 @@ def is_bottom_pattern(x, y, z):
 
 
 def bottom_pattern_fail(x, y, z):
+    """
+    Check whether this three klines fail to form a bottom pattern
+    :param x: the first kline
+    :param y: the second kline
+    :param z: the third kline
+    :return: True or False for failing bottom pattern
+    """
     if(x.period == y.period and y.period == z.period and x.high > y.high
        and x.low > y.low and y.high < z.high and y.low >= z.low):
         return True
@@ -24,6 +38,13 @@ def bottom_pattern_fail(x, y, z):
 
 
 def is_top_pattern(x, y, z):
+    """
+    Check whether this three klines form a top pattern
+    :param x: the first kline
+    :param y: the second kline
+    :param z: the third kline
+    :return: True or False for top pattern
+    """
     if(x.period == y.period and y.period == z.period and x.high < y.high
        and x.low < y.low and y.high > z.high and y.low > z.low):
         return True
@@ -32,6 +53,13 @@ def is_top_pattern(x, y, z):
 
 
 def top_pattern_fail(x, y, z):
+    """
+    Check whether this three klines fails to form a top pattern
+    :param x: the first kline
+    :param y: the second kline
+    :param z: the third kline
+    :return: True or False for failing a top pattern
+    """
     if(x.period == y.period and y.period == z.period and x.high < y.high
        and x.low < y.low and y.high <= z.high and y.low > z.low):
         return True
