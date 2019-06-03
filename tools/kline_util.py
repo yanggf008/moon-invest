@@ -197,3 +197,10 @@ def get_processed_klines(len):
     base_logfile.write_logfile("GET including processed klines SUCCESS")
     return ridklines
 
+
+def is_hundred_today():
+    # TODO implement this function
+    pass
+
+
+
