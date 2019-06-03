@@ -68,6 +68,11 @@ def top_pattern_fail(x, y, z):
 
 
 def get_high_max(klines):
+    """
+    Get the highest kline from the list of klines
+    :param klines: the list of klines
+    :return: the highest kline
+    """
     x = klines[0]
     for item in klines:
         if item.high > x.high:
@@ -76,6 +81,11 @@ def get_high_max(klines):
 
 
 def get_low_min(klines):
+    """
+    Get the lowest kline from the list of klines
+    :param klines: the list of klines
+    :return: the lowest kline
+    """
     x = klines[0]
     for item in klines:
         if item.low < x.low:
@@ -84,6 +94,11 @@ def get_low_min(klines):
 
 
 def up_or_down(klines):
+    """
+    Judge the kline list type: up or down
+    :param klines: the list of klines
+    :return: "up", "pure up" or "down" string
+    """
     high_kline = get_high_max(klines)
     high_position = klines.index(high_kline)
     lens = len(klines)
@@ -101,6 +116,12 @@ def up_or_down(klines):
 
 
 def contain_include(start, klines):
+    """
+    Whether the klines contain including relationship
+    :param start: the start of the kline list
+    :param klines: the list of klines
+    :return: True or false for contain including relationship
+    """
     for i in range(start, len(klines) - 1):
         if (klines[i].high >= klines[i+1].high and klines[i].low <= klines[i+1].low) or \
             (klines[i].high <= klines[i+1].high and klines[i].low >= klines[i+1].low):
@@ -110,6 +131,11 @@ def contain_include(start, klines):
 
 # chuli contains relationship  if len < 3: no process
 def process_include(klines):
+    """
+    This function processes the including klines
+    :param klines: the original klines
+    :return: the processed klines
+    """
     up_down_sign = up_or_down(klines)
     # start process contain relation. back contain process
     start = 0
@@ -157,12 +183,15 @@ def process_include(klines):
 
 
 def get_processed_klines(len):
-    kliness = []
+    """
+    This function return the processed including klines from the last (len) klines
+    :param len: the last (len) klines
+    :return: the processed klines
+    """
     spot = Spot()
     base_logfile = Logfile(get_base_logfile())
-    for i in range(len):
-        kliness.append(spot.get_kline(SYMBOL, get_previous_utc(5),
-                                      get_utc_timestamp(), TYPE))
+
+    kliness = spot.get_kline(SYMBOL, get_previous_utc(5), get_utc_timestamp(), TYPE)[-len:]
     kliness.reverse()
     ridklines = process_include(kliness)
     base_logfile.write_logfile("GET including processed klines SUCCESS")
