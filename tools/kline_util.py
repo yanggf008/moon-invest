@@ -117,7 +117,7 @@ def up_or_down(klines):
 
 def contain_include(start, klines):
     """
-    Whether the klines contain including relationship
+    Whether part of the klines(from start to end) contain including relationship
     :param start: the start of the kline list
     :param klines: the list of klines
     :return: True or false for contain including relationship
@@ -182,25 +182,44 @@ def process_include(klines):
     return klines
 
 
-def get_processed_klines(len):
+def get_processed_klines(len, instrument_id, granularity):
     """
     This function return the processed including klines from the last (len) klines
     :param len: the last (len) klines
+    :param instrument_id: the instrument name
     :return: the processed klines
     """
     spot = Spot()
     base_logfile = Logfile(get_base_logfile())
 
-    kliness = spot.get_kline(SYMBOL, get_previous_utc(5), get_utc_timestamp(), TYPE)[-len:]
+    kliness = spot.get_kline(instrument_id, get_previous_utc(5), get_utc_timestamp(), granularity)[-len:]
     kliness.reverse()
-    ridklines = process_include(kliness)
+    processed_klines = process_include(kliness)
     base_logfile.write_logfile("GET including processed klines SUCCESS")
-    return ridklines
+    return processed_klines
 
 
-def is_hundred_today():
-    # TODO implement this function
-    pass
+def is_hundred_today(instrument_id):
+    """
+    This function to determine whether kline today is the highest within 100 days
+    :param instrument_id: the instrument name
+    :return: True or False of being hundred top
+    """
+    spot = Spot()
+    klines = spot.get_kline(instrument_id, get_previous_utc(100),
+                            get_utc_timestamp(), 86400)
+    top_hundred = 0
+    for kline in klines:
+        if top_hundred < float(kline.high):
+            top_hundred = float(kline.high)
+    previous_top = 0
+    for kline in klines[:-1]:
+        if previous_top < float(kline.high):
+            previous_top = float(kline.high)
+    if top_hundred == float(klines[-1]) and previous_top != float(klines[-2]):
+        return True
+    else:
+        return False
 
 
 
