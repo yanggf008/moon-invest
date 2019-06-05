@@ -117,6 +117,10 @@ class Spot(Client):
                   'price': price, 'funds': funds, 'margin_trading': margin_trading, 'order_type': order_type}
         return self._request(POST, SPOT_ORDER, params)
 
+    def take_trigger_order(self):
+        # TODO: implement trigger order
+        pass
+
     def get_currency_list(self):
         """
         Get the currency list(different coin names)
