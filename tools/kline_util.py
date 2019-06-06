@@ -213,10 +213,10 @@ def is_hundred_today(instrument_id):
         if top_hundred < float(kline.high):
             top_hundred = float(kline.high)
     previous_top = 0
-    for kline in klines[:-1]:
+    for kline in klines[1:]:
         if previous_top < float(kline.high):
             previous_top = float(kline.high)
-    if top_hundred == float(klines[-1]) and previous_top != float(klines[-2]):
+    if top_hundred == float(klines[0].high) and previous_top != float(klines[1].high):
         return True
     else:
         return False

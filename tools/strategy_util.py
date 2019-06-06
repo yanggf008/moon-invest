@@ -3,6 +3,7 @@
 from tools.kline_util import *
 from tools.get_logfile_name import *
 from tools.logfile import Logfile
+from tools.email_service import *
 
 
 # the examined kxians' length
@@ -137,3 +138,17 @@ def is_down_five(instrument_id):
     else:
         system_logfile.write_logfile("downFIVE:FALSE")
         return False
+
+
+def get_hundred_list():
+    """
+    This function is to get instrument list whose today kline high is hundred days highest
+    :return: the hundred highest instrument list
+    """
+    spot = Spot()
+    instrument_list = spot.get_instrument_list()
+    hundred_list = []
+    for instrument in instrument_list:
+        if is_hundred_today(instrument):
+            hundred_list.append(instrument)
+    return hundred_list
