@@ -3,13 +3,10 @@
 from tools.kline_util import *
 from tools.get_logfile_name import *
 from tools.logfile import Logfile
-from tools.email_service import *
 
 
-# the examined kxians' length
+# the examined klines' length
 KLEN = 10
-# the period of forbid loss configuration
-FIVEZHISUNTYPE = "1day"
 
 
 def is_bottom_buy(instrument_id, granularity):

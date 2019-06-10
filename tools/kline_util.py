@@ -3,7 +3,6 @@
 from tools.get_logfile_name import *
 from tools.logfile import Logfile
 from tools.spot import Spot
-from symbol_properties import *
 from tools.time_util import get_previous_utc, get_utc_timestamp
 
 
