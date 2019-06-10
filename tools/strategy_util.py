@@ -12,9 +12,15 @@ KLEN = 10
 FIVEZHISUNTYPE = "1day"
 
 
-def is_bottom_buy():
+def is_bottom_buy(instrument_id, granularity):
+    """
+    Identify whether it is a bottom pattern
+    :param instrument_id: the name of the instrument
+    :param granularity: the granularity of the instrument
+    :return: True of False of the bottom pattern
+    """
     logfile = Logfile(get_system_logfile())
-    processedKxian = get_processed_klines(KLEN)
+    processedKxian = get_processed_klines(KLEN, instrument_id, granularity)
     x = processedKxian[-3]
     y = processedKxian[-2]
     z = processedKxian[-1]
@@ -26,9 +32,15 @@ def is_bottom_buy():
         return False
 
 
-def bottom_fail_sell():
+def bottom_fail_sell(instrument_id, granularity):
+    """
+    Identify whether the bottom pattern is fail
+    :param instrument_id: the name of the instrument
+    :param granularity: the granularity of the instrument
+    :return: True of False of the failure of the bottom pattern
+    """
     logfile = Logfile(get_system_logfile())
-    processedKxian = get_processed_klines(KLEN)
+    processedKxian = get_processed_klines(KLEN, instrument_id, granularity)
     x = processedKxian[-3]
     y = processedKxian[-2]
     z = processedKxian[-1]
@@ -40,7 +52,13 @@ def bottom_fail_sell():
         return False
 
 
-def is_top_sell():
+def is_top_sell(instrument_id, granularity):
+    """
+    This function identifies whether it is a top pattern now
+    :param instrument_id: the name of instrument
+    :param granularity: the granularity of the instrument
+    :return: True or False of top pattern
+    """
     logfile = Logfile(get_system_logfile())
     processedKxian = get_processed_klines(KLEN)
     x = processedKxian[-3]
