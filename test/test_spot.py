@@ -16,3 +16,11 @@ class TestSpot(unittest.TestCase):
         # for kline in klines:
         #     print(kline)
         self.assertIsNotNone(klines, "the return kline should not be None")
+
+    def test_get_orders_list(self):
+        spot = Spot()
+        instrument_id = "R-USDT"
+        orders_list_filled = spot.get_orders_list('filled', instrument_id)
+        orders_list_open = spot.get_orders_list('open', instrument_id)
+        self.assertIsInstance(orders_list_filled, list, "orders list should be list")
+        self.assertIsInstance(orders_list_open, list, "orders list should be list")

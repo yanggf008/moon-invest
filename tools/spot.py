@@ -121,6 +121,24 @@ class Spot(Client):
         # TODO: implement trigger order
         pass
 
+    def get_orders_list(self, status, instrument_id, froms='', to='', limit='100'):
+        """
+        Get the orders list
+        :param status: filled, open
+        :param instrument_id: the instrument name
+        :param froms: from page id
+        :param to: to page id
+        :param limit: number of results per request
+        :return: {order_id, client_oid, price, size, notional, instrument_id, type, side,
+        timestamp, filled_size, filled_notional, status, order_type, state, price_avg}
+        """
+        params = {'status': status, 'instrument_id': instrument_id, 'limit': limit}
+        if froms:
+            params['from'] = froms
+        if to:
+            params['to'] = to
+        return self._request(GET, SPOT_ORDERS_LIST, params)
+
     def get_currency_list(self):
         """
         Get the currency list(different coin names)

@@ -1,11 +1,7 @@
 # coding: utf8
-from tools.md5 import Md5tools
 from user_properties import *
-from symbol_properties import *
 from tools.price import *
-from tools.logfile import *
 from tools.time_util import *
-from tools.get_logfile_name import get_action_logfile
 import hashlib
 import base64
 import hmac
@@ -67,37 +63,8 @@ def get_currency_amount(currency):
     return float(amount)
 
 
-#
-# # ticker's ask information(sell price and amount)
-# def ticker_ask():
-#     data_map = {"api_key": APIKEY, "secret_key": SECRETKEY}
-#     data = {"api_key": APIKEY, "secret_key": SECRETKEY, "sign": Md5tools.get_sign_value(data_map), "symbol": SYMBOL}
-#     html = requests.get("https://www.okex.com/api/v1/depth.do", data)
-#     ask_json = json.loads(html.content)
-#     ticker_map = ask_json['asks'][-1]
-#     return ticker_map
-#
-#
-# def trade_buy():
-#     data_map = {"api_key": APIKEY, "symbol": SYMBOL, "type": "buy",
-#              "price": float(ticker_ask()[0]), "amount": float(get_can_buy_amount())}
-#     data = {"amount": float(get_can_buy_amount()), "api_key": APIKEY, "price": float(ticker_ask()[0]), "symbol": SYMBOL, "type": "buy",
-#               "sign": Md5tools.get_full_sign_value(data_map)}
-#     html = requests.post("https://www.okex.com/api/v1/trade.do", data)
-#     trade_json = json.loads(html.content)
-#     ticker_map = trade_json
-#     return ticker_map
-#
-#
-# def trade_sell():
-#     data_map = {"api_key": APIKEY, "symbol": SYMBOL, "type": "sell",
-#              "price": float(ticker_bid()[0]), "amount": float(get_can_sell_amout())}
-#     data = {"amount": float(get_can_sell_amout()), "api_key": APIKEY, "price": float(ticker_bid()[0]), "symbol": SYMBOL, "type": "sell",
-#               "sign": Md5tools.get_full_sign_value(data_map)}
-#     html = requests.post("https://www.okex.com/api/v1/trade.do", data)
-#     sell_json = json.loads(html.content)
-#     ticker_map = sell_json
-#     return ticker_map
+
+
 #
 #
 # def get_order_info():
