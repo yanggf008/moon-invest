@@ -118,7 +118,7 @@ class Spot(Client):
         return self._request(POST, SPOT_ORDER, params)
 
     def take_trigger_order(self):
-        # TODO: implement trigger order
+        # TODO: implement trigger order when the official api implemented
         pass
 
     def get_orders_list(self, status, instrument_id, froms='', to='', limit='100'):
