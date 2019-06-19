@@ -221,4 +221,41 @@ def is_hundred_today(instrument_id):
         return False
 
 
+def was_hundred(instrument_id, previous_day):
+    """
+    This function to determine whether kline today is the highest within 100 days
+    :param instrument_id: the instrument name
+    :param previous_day: 1, 2, 3, 4, or 5 days before
+    :return: True or False of being hundred top
+    """
+    spot = Spot()
+    klines = spot.get_kline(instrument_id, get_previous_utc(100),
+                            get_utc_timestamp(), 86400)[:-previous_day]
+    top_hundred = 0
+    for kline in klines:
+        if top_hundred < float(kline.high):
+            top_hundred = float(kline.high)
+    previous_top = 0
+    for kline in klines[1:]:
+        if previous_top < float(kline.high):
+            previous_top = float(kline.high)
+    if top_hundred == float(klines[0].high) and previous_top != float(klines[1].high):
+        return True
+    else:
+        return False
+
+
+def was_hundred_five(instrument_id):
+    """
+    This function to determine whether kline today is the highest within 100 days
+    :param instrument_id: the instrument name
+    :return: True or False of being hundred top
+    """
+    if was_hundred(instrument_id, 1) or was_hundred(instrument_id, 2) or \
+        was_hundred(instrument_id, 3) or was_hundred(instrument_id, 4) or is_hundred_today(instrument_id):
+        return True
+    else:
+        return False
+
+
 
