@@ -18,6 +18,8 @@ This project will be divided into six parts:
 
 -Classical visualization:This part mainly show the specific graphic of K line, including some classical pattern.
 
+-visualization of the profit return rate for different strategies to make it clear which is better.
+
 4.Invest assistant tools
 
 -Basic concept of investing tools provided
