@@ -210,6 +210,37 @@ class Spot(Client):
             kline_list.append(kline)
         return kline_list
 
+    def get_usdkt_list(self):
+        usdkt = []
+        instrument_list = self.get_instrument_list()
+        for instrument in instrument_list:
+            if str(instrument).endswith("USDK") and \
+                    instrument_list.count(str(instrument).replace("USDK", "USDT")) > 0:
+                usdkt.append((instrument, str(instrument).replace("USDK", "USDT")))
+        return usdkt
+
+    def get_kd_buy_price(self, instrument_id):
+        depth = self.get_depth(instrument_id)
+        return float(depth["asks"][0][0])
+
+    def get_kd_buy_amount(self, instrument_id):
+        depth = self.get_depth(instrument_id)
+        return float(depth["asks"][0][1])
+
+    def get_kd_sell_price(self, instrument_id):
+        depth = self.get_depth(instrument_id)
+        return float(depth["bids"][0][0])
+
+    def get_kd_sell_amount(self, instrument_id):
+        depth = self.get_depth(instrument_id)
+        return float(depth["bids"][0][1])
+
+    def get_usdk(self):
+        return float(self.get_currency_amount("USDK"))
+
+    def get_usdt(self):
+        return float(self.get_usdt_amount())
+
 
 if __name__ == "__main__":
     spot = Spot()
@@ -225,3 +256,8 @@ if __name__ == "__main__":
     # print(spot.get_buy_amount('yee-usdt'))
     # print(spot.get_instrument_price())
     # print(spot.get_top_instrument(5))
+    # print(spot.get_instrument_list())
+    print(spot.get_usdkt_list())
+    print(spot.get_kd_buy_price("BTC-USDT"), spot.get_kd_sell_price("BTC-USDT"),
+          spot.get_kd_buy_amount("BTC-USDT"), spot.get_kd_sell_amount("BTC-USDT"))
+    print(spot.get_usdk(), spot.get_usdt())
