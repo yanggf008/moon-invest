@@ -23,7 +23,7 @@ def notify_exceed_price(price):
 
 
 if __name__ == "__main__":
-    Email.send("15min", "it is a bottom pattern")
+    # Email.send("15min", "it is a bottom pattern")
     while True:
         notify_fifteen_bottom()
         notify_exceed_price(13148.5)
