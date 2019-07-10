@@ -21,6 +21,8 @@ def notify_exceed_price(price):
         print("current price is higher than " + str(price))
         Email.send("current price > " + str(price), "current price is " + str(current_price))
 
+# TODO: implement notify top pattern
+
 
 if __name__ == "__main__":
     # Email.send("15min", "it is a bottom pattern")
