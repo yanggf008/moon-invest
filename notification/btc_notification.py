@@ -17,7 +17,7 @@ def notify_fifteen_bottom():
 
 def notify_exceed_price(price):
     current_price = spot.get_buy_price("BTC_USDT")
-    if current_price > float(price):
+    if float(current_price) > float(price):
         print("current price is higher than " + str(price))
         Email.send("current price > " + str(price), "current price is " + str(current_price))
 
@@ -28,5 +28,6 @@ if __name__ == "__main__":
     # Email.send("15min", "it is a bottom pattern")
     while True:
         notify_fifteen_bottom()
+        time.sleep(5)
         notify_exceed_price(13148.5)
         time.sleep(5)
