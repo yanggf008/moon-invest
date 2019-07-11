@@ -21,7 +21,12 @@ def notify_exceed_price(price):
         print("current price is higher than " + str(price))
         Email.send("current price > " + str(price), "current price is " + str(current_price))
 
-# TODO: implement notify top pattern
+
+def notify_top_pattern():
+    processed_klines = get_processed_klines(10, "BTC_USDT", 900)
+    if is_top_pattern(processed_klines[-3], processed_klines[-2], processed_klines[-1]):
+        print("top pattern")
+        Email.send("15min", "top pattern")
 
 
 if __name__ == "__main__":
