@@ -52,6 +52,7 @@ class Client:
             response == requests.delete(url, headers=headers)
 
         if not str(response.status_code).startswith('2'):
+            print(response.headers)
             raise OkexRequestsException(response)
         else:
             return response.json()
