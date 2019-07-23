@@ -51,8 +51,9 @@ class FutureAPI(Client):
 
     # take order
     def take_order(self, client_oid, instrument_id, otype, price, size, match_price, leverage):
-
-        params = {'client_oid': client_oid, 'instrument_id': instrument_id, 'type': otype, 'price': price, 'size': size, 'match_price':match_price, 'leverage': leverage}
+        #param size 1 means 0.01
+        params = {'client_oid': client_oid, 'instrument_id': instrument_id, 'type': otype, 'price': price, 'size': size,
+                  'match_price': match_price, 'leverage': leverage}
         return self._request(POST, FUTURE_ORDER, params)
 
     #take orders
@@ -188,11 +189,15 @@ class FutureAPI(Client):
         return self._request_without_params(GET, FUTURE_MARK +str(instrument_id) + '/mark_price')
 
     # TODO: market close all
-    def market_close_all(self, instrument_id, side):
-        pass
+    def market_close_all(self, instrument_id, direction):
+        params = {"instrument_id": instrument_id, "direction": direction}
+        return self._request(POST, FUTURE_MARKET_CLOSE, params)
 
-
-
+    def market_close_all_direction(self, instrument_id):
+        param1 = {"instrument_id": instrument_id, "direction": "long"}
+        param2 = {"instrument_id": instrument_id, "direction": "short"}
+        self._request(POST, FUTURE_MARKET_CLOSE, param1)
+        self._request(POST, FUTURE_MARKET_CLOSE, param2)
 
 
 

@@ -51,9 +51,17 @@ def get_format_time():
     return str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
 
+def get_future_suffix():
+    today = datetime.date.today()
+    friday = today + datetime.timedelta((4 - today.weekday()) % 7)
+    friday_str = time.strftime("%Y%m%d", friday.timetuple())
+    return str(friday_str)[2:]
+
+
 if __name__ == "__main__":
     print(datetime.datetime.utcnow().isoformat()[:-3] + "Z")
     print((datetime.datetime.utcnow() - timedelta(hours=4)).isoformat())
     print(get_utc_timestamp())
     print(get_previous_utc(23))
     print(utc_to_timestamp("2019-05-22T03:25:10.482Z"))
+    print(get_future_suffix())

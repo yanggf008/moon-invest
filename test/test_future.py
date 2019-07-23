@@ -7,6 +7,7 @@ class TestFurture(unittest.TestCase):
     def test_get_account(self):
         future = FutureAPI()
         print(future.get_coin_account("BTC"))
-        print(future.get)
         # TODO: test under normal wifi
-        future.take_order(client_oid="guofengyang", instrument_id="BTC-USD-190719", otype="1", price="10430", size="0.183", match_price="1", leverage="10")
+        # size 1 is 0.01
+        # future.take_order(client_oid="guofengfdfd", instrument_id="BTC-USD-190726", otype="1", price="10270", size="10", match_price="0", leverage="10")
+        future.market_close_all(instrument_id="BTC-USD-190726", direction="long")
