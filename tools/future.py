@@ -83,15 +83,27 @@ class FutureAPI(Client):
     #    return self._request(GET, FUTURE_ORDERS_LIST, params)
 
     # query order list
-    def get_order_list(self, status,  instrument_id='',froms=1, to=4, limit=100):
+    def get_order_list(self, status,  instrument_id='', limit=100):
         params = {'status': status, 'instrument_id': instrument_id}
-        if froms:
-            params['from'] = froms
-        if to:
-            params['to'] = to
         if limit:
             params['limit'] = limit
         return self._request(GET, FUTURE_ORDERS_LIST+'/'+str(instrument_id), params)
+
+    def get_uncomplete_order(self, instrument_id):
+        order_list = self.get_order_list(status="6", instrument_id=instrument_id)
+        orderID_list = []
+        for order in order_list["order_info"]:
+            orderID_list.append(order["order_id"])
+        return orderID_list
+
+    def cancel_uncomplete_orders(self, instrument_id):
+        orderID_list = self.get_uncomplete_order(instrument_id)
+        for orderID in orderID_list:
+            self.revoke_order(instrument_id, orderID)
+
+    def twenty_loss_cut(self):
+        #TODO: implement loss control within 20%
+        pass
 
     # query order info
     def get_order_info(self, instrument_id,order_id='', client_oid=''):
@@ -188,7 +200,6 @@ class FutureAPI(Client):
     def get_mark_price(self, instrument_id):
         return self._request_without_params(GET, FUTURE_MARK +str(instrument_id) + '/mark_price')
 
-    # TODO: market close all
     def market_close_all(self, instrument_id, direction):
         params = {"instrument_id": instrument_id, "direction": direction}
         return self._request(POST, FUTURE_MARKET_CLOSE, params)
@@ -199,5 +210,15 @@ class FutureAPI(Client):
         self._request(POST, FUTURE_MARKET_CLOSE, param1)
         self._request(POST, FUTURE_MARKET_CLOSE, param2)
 
+    #just cancel closed orders
+    def cancel_all(self, instrument_id, direction):
+        params = {"instrument_id": instrument_id, "direction": direction}
+        return self._request(POST, FUTURE_CANCEL_ALL, params)
 
+    #just cancel all closed orders
+    def cancel_all_direction(self, instrument_id):
+        param1 = {"instrument_id": instrument_id, "direction": "long"}
+        param2 = {"instrument_id": instrument_id, "direction": "short"}
+        self._request(POST, FUTURE_CANCEL_ALL, param1)
+        self._request(POST, FUTURE_CANCEL_ALL, param2)
 
