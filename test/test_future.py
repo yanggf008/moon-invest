@@ -14,4 +14,9 @@ class TestFurture(unittest.TestCase):
         print(future.get_position())
 
         # future.take_order(client_oid="guofengfdfd", instrument_id="BTC-USD-190726", otype="1", price="10270", size="10", match_price="0", leverage="10")
+<<<<<<< HEAD
         # future.market_close_all(instrument_id="BTC-USD-190726", direction="long")
+=======
+	future.take_order()
+        future.market_close_all(instrument_id="BTC-USD-190726", direction="long")
+>>>>>>> 409df20d2bc8f9f6186045dda999d2b77daa9f49
