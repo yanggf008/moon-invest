@@ -56,6 +56,7 @@ def cmp(a, b):
         return 0
 
 
+# this strategy failed.
 if __name__ == "__main__":
     while True:
         trading = trading_list()
