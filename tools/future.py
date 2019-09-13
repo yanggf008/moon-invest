@@ -56,7 +56,7 @@ class FutureAPI(Client):
                   'match_price': match_price, 'leverage': leverage}
         return self._request(POST, FUTURE_ORDER, params)
 
-    #take orders
+    # take orders
     def take_orders(self, instrument_id, orders_data, leverage):
         params = {'instrument_id': instrument_id, 'orders_data': orders_data, 'leverage': leverage}
         return self._request(POST, FUTURE_ORDERS, params)
