@@ -1,5 +1,6 @@
 from tools.client import Client
 from tools.consts import *
+import json
 
 
 class FutureAPI(Client):
@@ -10,6 +11,18 @@ class FutureAPI(Client):
     # query position
     def get_position(self):
         return self._request_without_params(GET, FUTURE_POSITION)
+
+    def get_BTC_long_avail_qty(self):
+        position_json = self.get_position()
+        position_list = []
+        for position_item in position_json['holding'][0]:
+            instrument_id = position_item['instrument_id']
+            long_avail_qty = position_item['long_avail_qty']
+            position_list.append((instrument_id, long_avail_qty))
+        for position_item in position_list:
+            if "BTC" in position_item[0]:
+                return float(position_item[1])
+        return 0.0
 
     # query specific position
     def get_specific_position(self, instrument_id):
