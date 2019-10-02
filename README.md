@@ -40,10 +40,18 @@ upload user_properties.py file
 
 USAGE:
 1)Add user_properties.py into your home directory.
+
 user_properties.py include your account info, for example:
+
 APIKEY = "*************"
+
 SECRETKEY = "XXXXXXXXXXXXXXXXXX"
+
 PASSPHRASE = "IIIIIIIIIIIII"
+
 SENDER_ADDRESS = "yanggf008@126.com"
+
 RECEIVER_ADDRESS = "282864282@qq.com"
+
 EMAIL_PASSWORD = b'jjjjjjjjjjjjjjj'
+
